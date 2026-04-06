@@ -8,13 +8,16 @@ export interface UserAttributes {
   email: string;
   role: Role;
   passwordHash: string;
+  verified: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+export interface UserCreationAttributes
+  extends Optional<UserAttributes, 'id'> {}
 
-export class User extends Model<UserAttributes, UserCreationAttributes>
+export class User
+  extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes {
   public id!: number;
   public firstName!: string;
@@ -22,6 +25,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes>
   public email!: string;
   public role!: Role;
   public passwordHash!: string;
+  public verified!: boolean;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -55,6 +59,11 @@ export function UserModel(sequelize: Sequelize): typeof User {
       passwordHash: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      verified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       }
     },
     {
@@ -62,6 +71,11 @@ export function UserModel(sequelize: Sequelize): typeof User {
       tableName: 'users',
       defaultScope: {
         attributes: { exclude: ['passwordHash'] }
+      },
+      scopes: {
+        withPassword: {
+          attributes: { include: ['passwordHash'] }
+        }
       }
     }
   );
