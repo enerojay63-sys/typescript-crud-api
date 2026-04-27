@@ -1,47 +1,36 @@
-import { Sequelize, Model, ModelStatic } from 'sequelize';
-import { UserModel } from 'users/user.model';
-import { DepartmentModel } from 'users/department.model';
-const config = require('../../config.json');
+import config from '../../config.json';
+import mysql from 'mysql2/promise';
+import { Sequelize } from 'sequelize';
 
 export interface Database {
-  sequelize: Sequelize;
-  User: ModelStatic<Model>;
-  Department: ModelStatic<Model>;
+    User: any;
+    Account: any;
+    RefreshToken: any;
 }
 
-const db: Database = {} as Database;
+export const db: Database = {} as Database;
 
-async function initialize(): Promise<void> {
-  const { host, port, user, password, database } = config.database;
+export async function initialize(): Promise<void> {
+    const { host, port, user, password, database } = config.database;
 
-  const sequelize = new Sequelize(database, user, password, {
-    host,
-    port,
-    dialect: 'mysql'
-  });
+    const connection = await mysql.createConnection({ host, port, user, password });
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
+    await connection.end();
 
-  await sequelize.authenticate();
+    const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
 
-  db.sequelize = sequelize;
-  db.User = UserModel(sequelize);
-  db.Department = DepartmentModel(sequelize);
+    const { UserModel } = await import('../users/user.model');
+    const { default: accountModel } = await import('../accounts/account.model');
+    const { default: refreshTokenModel } = await import('../accounts/refresh-token.model');
 
-  await sequelize.sync({ alter: true });
+    db.User = UserModel(sequelize);
+    db.Account = accountModel(sequelize);
+    db.RefreshToken = refreshTokenModel(sequelize);
 
-  await seedDepartments();
+    db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
+    db.RefreshToken.belongsTo(db.Account);
 
-  console.log('✅ Database connected and synced');
+    await sequelize.sync({ alter: true });
+
+    console.log('______DATABASE INITIALIZED AND MODELS SYNCED______');
 }
-
-async function seedDepartments(): Promise<void> {
-  const count = await db.Department.count();
-  if (count === 0) {
-    await db.Department.bulkCreate([
-      { name: 'Engineering', description: 'Software development and IT' },
-      { name: 'HR', description: 'Human Resources' }
-    ] as any);
-    console.log('✅ Departments seeded');
-  }
-}
-
-export { db, initialize };

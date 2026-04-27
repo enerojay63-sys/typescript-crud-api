@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
-import { validateRequest } from '_middleware/validateRequest';
+import { validateRequest } from '_middleware/validate-request';
 import { Role } from '_helpers/role';
 import { userService } from 'users/user.service';
 
