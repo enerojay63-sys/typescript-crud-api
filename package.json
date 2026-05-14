@@ -6,12 +6,20 @@
   "scripts": {
     "start:dev": "nodemon --watch src --ext ts --exec ts-node -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
+    "start": "node -r module-alias/register dist/server.js",
     "test": "echo \"No tests yet\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "_moduleAliases": {
+    "_helpers": "dist/_helpers",
+    "_middleware": "dist/_middleware",
+    "users": "dist/users",
+    "auth": "dist/auth",
+    "admin": "dist/admin"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
@@ -21,6 +29,7 @@
     "express-jwt": "^8.5.1",
     "joi": "^18.1.2",
     "jsonwebtoken": "^9.0.3",
+    "module-alias": "^2.3.4",
     "mysql2": "^3.22.2",
     "nodemailer": "^8.0.5",
     "rootpath": "^0.1.2",
