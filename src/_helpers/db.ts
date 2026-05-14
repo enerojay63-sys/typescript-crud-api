@@ -1,4 +1,8 @@
-import { config } from './config';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 import mysql from 'mysql2/promise';
 import { Sequelize } from 'sequelize';
 
@@ -6,18 +10,23 @@ export interface Database {
     User: any;
     Account: any;
     RefreshToken: any;
+    Department: any;
 }
 
 export const db: Database = {} as Database;
 
 export async function initialize(): Promise<void> {
-    const { host, port, user, password, database } = config.database;
+    const host = process.env.DB_HOST!;
+    const port = Number(process.env.DB_PORT);
+    const user = process.env.DB_USER!;
+    const password = process.env.DB_PASSWORD!;
+    const database = process.env.DB_NAME!;
 
     const connection = await mysql.createConnection({ host, port, user, password });
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
     await connection.end();
 
-    const sequelize = new Sequelize(database, user, password, { 
+    const sequelize = new Sequelize(database, user, password, {
         dialect: 'mysql',
         host,
         port
