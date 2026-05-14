@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Application } from 'express';
@@ -14,7 +13,10 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:4200', 'https://enero-frontend.onrender.com'],
+    credentials: true
+}));
 app.use(cookieParser());
 
 app.use('/accounts', accountsController);
