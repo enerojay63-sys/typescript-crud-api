@@ -1,4 +1,4 @@
-import config from '../../config.json';
+import { config } from './config';
 import mysql from 'mysql2/promise';
 import { Sequelize } from 'sequelize';
 
@@ -17,7 +17,11 @@ export async function initialize(): Promise<void> {
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
     await connection.end();
 
-    const sequelize = new Sequelize(database, user, password, { dialect: 'mysql' });
+    const sequelize = new Sequelize(database, user, password, { 
+        dialect: 'mysql',
+        host,
+        port
+    });
 
     const { UserModel } = await import('../users/user.model');
     const { default: accountModel } = await import('../accounts/account.model');
