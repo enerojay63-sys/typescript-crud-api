@@ -163,13 +163,16 @@ function basicDetails(account: any) {
 }
 
 async function sendVerificationEmail(account: any, origin: any) {
-    let message;
-    if (origin) {
-        const verifyUrl = `${origin}/account/verify-email?token=${account.verificationToken}`;
-        message = `<p>Please click the below link to verify your email address:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
-    } else {
-        message = `<p>Please use the below token to verify your email address with the <code>/account/verify-email</code> api route:</p><p><code>${account.verificationToken}</code></p>`;
+    let frontendOrigin = origin;
+    if (!frontendOrigin || frontendOrigin.includes('vercel.app') || frontendOrigin.includes('localhost:4000')) {
+        frontendOrigin = 'https://enero-frontend-smel.onrender.com';
     }
+    if (origin && origin.includes('localhost:4200')) {
+        frontendOrigin = 'http://localhost:4200';
+    }
+
+    const verifyUrl = `${frontendOrigin}/account/verify-email?token=${account.verificationToken}`;
+    const message = `<p>Please click the below link to verify your email address:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
 
     await sendEmail({
         to: account.email,
@@ -187,13 +190,16 @@ async function sendAlreadyRegisteredEmail(email: any, origin: any) {
 }
 
 async function sendPasswordResetEmail(account: any, origin: any) {
-    let message;
-    if (origin) {
-        const resetUrl = `${origin}/account/reset-password?token=${account.resetToken}`;
-        message = `<p>Please click the below link to reset your password:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`;
-    } else {
-        message = `<p>Please use the below token to reset your password with the <code>/account/reset-password</code> api route:</p><p><code>${account.resetToken}</code></p>`;
+    let frontendOrigin = origin;
+    if (!frontendOrigin || frontendOrigin.includes('vercel.app') || frontendOrigin.includes('localhost:4000')) {
+        frontendOrigin = 'https://enero-frontend-smel.onrender.com';
     }
+    if (origin && origin.includes('localhost:4200')) {
+        frontendOrigin = 'http://localhost:4200';
+    }
+
+    const resetUrl = `${frontendOrigin}/account/reset-password?token=${account.resetToken}`;
+    const message = `<p>Please click the below link to reset your password:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`;
 
     await sendEmail({
         to: account.email,
