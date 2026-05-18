@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import { Sequelize } from 'sequelize';
+import config from '../../config.json';
 
 export interface Database {
     User: any;
@@ -11,11 +12,11 @@ export interface Database {
 export const db: Database = {} as Database;
 
 export async function initialize(): Promise<void> {
-    const host = process.env.DB_HOST!;
-    const port = Number(process.env.DB_PORT);
-    const user = process.env.DB_USER!;
-    const password = process.env.DB_PASSWORD!;
-    const database = process.env.DB_NAME!;
+    const host = process.env.DB_HOST || config.database.host;
+    const port = Number(process.env.DB_PORT || config.database.port);
+    const user = process.env.DB_USER || config.database.user;
+    const password = process.env.DB_PASSWORD || config.database.password;
+    const database = process.env.DB_NAME || config.database.database;
 
     const connection = await mysql.createConnection({ host, port, user, password });
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
