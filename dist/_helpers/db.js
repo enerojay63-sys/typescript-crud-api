@@ -48,9 +48,14 @@ async function initialize() {
     const user = process.env.DB_USER || config_json_1.default.database.user;
     const password = process.env.DB_PASSWORD || config_json_1.default.database.password;
     const database = process.env.DB_NAME || config_json_1.default.database.database;
-    const connection = await promise_1.default.createConnection({ host, port, user, password });
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
-    await connection.end();
+    try {
+        const connection = await promise_1.default.createConnection({ host, port, user, password });
+        await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
+        await connection.end();
+    }
+    catch (err) {
+        console.warn('Could not ensure database existence (this is normal on shared hosting):', err.message);
+    }
     const sequelize = new sequelize_1.Sequelize(database, user, password, {
         dialect: 'mysql',
         host,

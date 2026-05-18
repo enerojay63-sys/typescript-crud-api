@@ -17,10 +17,13 @@ export async function initialize(): Promise<void> {
     const user = process.env.DB_USER || config.database.user;
     const password = process.env.DB_PASSWORD || config.database.password;
     const database = process.env.DB_NAME || config.database.database;
-
-    const connection = await mysql.createConnection({ host, port, user, password });
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
-    await connection.end();
+    try {
+        const connection = await mysql.createConnection({ host, port, user, password });
+        await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\``);
+        await connection.end();
+    } catch (err: any) {
+        console.warn('Could not ensure database existence (this is normal on shared hosting):', err.message);
+    }
 
     const sequelize = new Sequelize(database, user, password, {
         dialect: 'mysql',
