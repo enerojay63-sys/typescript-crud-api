@@ -153,9 +153,14 @@ function basicDetails(account) {
     return { id, title, firstName, lastName, email, role, created, updated, isVerified };
 }
 async function sendVerificationEmail(account, origin) {
-    const message = origin
-        ? `<p>Please use the below token to verify your email address with the <code>/account/verify-email</code> api route:</p><p><code>${account.verificationToken}</code></p>`
-        : `<p>Please use the below token to verify your email address:</p><p><code>${account.verificationToken}</code></p>`;
+    let message;
+    if (origin) {
+        const verifyUrl = `${origin}/account/verify-email?token=${account.verificationToken}`;
+        message = `<p>Please click the below link to verify your email address:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
+    }
+    else {
+        message = `<p>Please use the below token to verify your email address with the <code>/account/verify-email</code> api route:</p><p><code>${account.verificationToken}</code></p>`;
+    }
     await (0, send_email_1.default)({
         to: account.email,
         subject: 'Sign-up Verification API - Verify Email',
@@ -170,7 +175,14 @@ async function sendAlreadyRegisteredEmail(email, origin) {
     });
 }
 async function sendPasswordResetEmail(account, origin) {
-    const message = `<p>Please use the below token to reset your password with the <code>/account/reset-password</code> api route:</p><p><code>${account.resetToken}</code></p>`;
+    let message;
+    if (origin) {
+        const resetUrl = `${origin}/account/reset-password?token=${account.resetToken}`;
+        message = `<p>Please click the below link to reset your password:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`;
+    }
+    else {
+        message = `<p>Please use the below token to reset your password with the <code>/account/reset-password</code> api route:</p><p><code>${account.resetToken}</code></p>`;
+    }
     await (0, send_email_1.default)({
         to: account.email,
         subject: 'Sign-up Verification API - Reset Password',
