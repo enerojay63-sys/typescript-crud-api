@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
-import { db } from '_helpers/db';
-import { UserCreationAttributes } from 'users/user.model';
+import { db } from '../_helpers/db';
+import { UserCreationAttributes } from './user.model';
 
 async function getAll(): Promise<any[]> {
   return await db.User.findAll();

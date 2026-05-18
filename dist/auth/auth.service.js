@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authService = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const db_1 = require("_helpers/db");
-const role_1 = require("_helpers/role");
+const db_1 = require("../_helpers/db");
+const role_1 = require("../_helpers/role");
 const config = require('../../config.json');
 async function register(params) {
     const existing = await db_1.db.User.findOne({

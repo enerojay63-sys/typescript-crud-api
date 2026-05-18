@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { db } from '_helpers/db';
-import { Role } from '_helpers/role';
+import { db } from '../_helpers/db';
+import { Role } from '../_helpers/role';
 const config = require('../../config.json');
 
 async function register(params: any): Promise<void> {

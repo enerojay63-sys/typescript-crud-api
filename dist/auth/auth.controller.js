@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const joi_1 = __importDefault(require("joi"));
-const validate_request_1 = require("_middleware/validate-request");
-const auth_service_1 = require("auth/auth.service");
-const jwt_1 = require("_helpers/jwt");
+const validate_request_1 = require("../_middleware/validate-request");
+const auth_service_1 = require("./auth.service");
+const jwt_1 = require("../_helpers/jwt");
 const router = express_1.default.Router();
 router.post('/register', registerSchema, register);
 router.post('/verify-email', verifyEmail);

@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
-import { validateRequest } from '_middleware/validate-request';
-import { Role } from '_helpers/role';
-import { userService } from 'users/user.service';
+import { validateRequest } from '../_middleware/validate-request';
+import { Role } from '../_helpers/role';
+import { userService } from './user.service';
 
 const router = express.Router();
 

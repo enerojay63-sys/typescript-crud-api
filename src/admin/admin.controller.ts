@@ -1,6 +1,6 @@
 import express, { Response, NextFunction } from 'express';
-import { db } from '_helpers/db';
-import { authenticateToken, requireAdmin, AuthRequest } from '_helpers/jwt';
+import { db } from '../_helpers/db';
+import { authenticateToken, requireAdmin, AuthRequest } from '../_helpers/jwt';
 
 const router = express.Router();
 

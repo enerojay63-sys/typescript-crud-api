@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 exports.UserModel = UserModel;
 const sequelize_1 = require("sequelize");
-const role_1 = require("_helpers/role");
+const role_1 = require("../_helpers/role");
 class User extends sequelize_1.Model {
 }
 exports.User = User;

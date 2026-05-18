@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const db_1 = require("_helpers/db");
-const jwt_1 = require("_helpers/jwt");
+const db_1 = require("../_helpers/db");
+const jwt_1 = require("../_helpers/jwt");
 const router = express_1.default.Router();
 router.get('/accounts', jwt_1.authenticateToken, jwt_1.requireAdmin, getAccounts);
 router.get('/departments', jwt_1.authenticateToken, jwt_1.requireAdmin, getDepartments);

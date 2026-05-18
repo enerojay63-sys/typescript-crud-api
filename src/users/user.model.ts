@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
-import { Role } from '_helpers/role';
+import { Role } from '../_helpers/role';
 
 export interface UserAttributes {
   id: number;
