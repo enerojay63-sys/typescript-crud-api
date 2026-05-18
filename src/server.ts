@@ -23,6 +23,10 @@ app.use('/accounts', accountsController);
 app.use('/api-docs', swaggerRouter);
 app.use('/users', userController);
 
+app.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;

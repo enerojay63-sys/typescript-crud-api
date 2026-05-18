@@ -24,6 +24,9 @@ app.use((0, cookie_parser_1.default)());
 app.use('/accounts', account_controller_1.default);
 app.use('/api-docs', swagger_1.default);
 app.use('/users', users_controller_1.default);
+app.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
 app.use(error_handler_1.errorHandler);
 const PORT = process.env.PORT || 4000;
 // Start database initialization immediately
