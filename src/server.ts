@@ -14,7 +14,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: ['http://localhost:4200', 'https://enero-frontend.onrender.com'],
+    origin: ['http://localhost:4200', 'https://enero-frontend-smel.onrender.com'],
     credentials: true
 }));
 app.use(cookieParser());
