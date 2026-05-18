@@ -18,19 +18,6 @@ app.use(cors({
     credentials: true
 }));
 app.use(cookieParser());
-
-app.use('/accounts', accountsController);
-app.use('/api-docs', swaggerRouter);
-app.use('/users', userController);
-
-app.get('/', (req, res) => {
-    res.redirect('/api-docs');
-});
-
-app.use(errorHandler);
-
-const PORT = process.env.PORT || 4000;
-
 // Start database initialization immediately
 const initPromise = initialize();
 
@@ -50,6 +37,18 @@ app.use(async (req, res, next) => {
         next(err);
     }
 });
+
+app.use('/accounts', accountsController);
+app.use('/api-docs', swaggerRouter);
+app.use('/users', userController);
+
+app.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
+
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 4000;
 
 if (!process.env.VERCEL) {
     app.listen(PORT, () => {

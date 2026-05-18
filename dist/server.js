@@ -21,14 +21,6 @@ app.use((0, cors_1.default)({
     credentials: true
 }));
 app.use((0, cookie_parser_1.default)());
-app.use('/accounts', account_controller_1.default);
-app.use('/api-docs', swagger_1.default);
-app.use('/users', users_controller_1.default);
-app.get('/', (req, res) => {
-    res.redirect('/api-docs');
-});
-app.use(error_handler_1.errorHandler);
-const PORT = process.env.PORT || 4000;
 // Start database initialization immediately
 const initPromise = (0, db_1.initialize)();
 initPromise.catch((err) => {
@@ -47,6 +39,14 @@ app.use(async (req, res, next) => {
         next(err);
     }
 });
+app.use('/accounts', account_controller_1.default);
+app.use('/api-docs', swagger_1.default);
+app.use('/users', users_controller_1.default);
+app.get('/', (req, res) => {
+    res.redirect('/api-docs');
+});
+app.use(error_handler_1.errorHandler);
+const PORT = process.env.PORT || 4000;
 if (!process.env.VERCEL) {
     app.listen(PORT, () => {
         console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
