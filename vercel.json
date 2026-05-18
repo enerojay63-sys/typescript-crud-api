@@ -5,7 +5,10 @@
       "src": "src/server.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["swagger.yaml"]
+        "includeFiles": [
+          "swagger.yaml",
+          "node_modules/swagger-ui-dist/**"
+        ]
       }
     }
   ],

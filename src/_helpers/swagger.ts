@@ -7,6 +7,10 @@ const router = express.Router();
 const swaggerPath = path.join(process.cwd(), 'swagger.yaml');
 const swaggerDocument = YAML.load(swaggerPath);
 
-router.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const options = {
+    customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css'
+};
+
+router.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 export default router;

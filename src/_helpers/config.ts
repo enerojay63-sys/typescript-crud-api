@@ -1,8 +1,38 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import configJson from '../../config.json';
+import fs from 'fs';
 
+// Load .env first
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+let configJson;
+try {
+    const configPath = path.resolve(__dirname, '../../config.json');
+    configJson = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+} catch (error) {
+    // Fallback to inline defaults if config.json is missing
+    console.warn("config.json not found, using inline defaults");
+    configJson = {
+        database: {
+            host: 'localhost',
+            port: 5432,
+            user: 'postgres',
+            password: '[PASSWORD]',
+            database: 'users'
+        },
+        secret: 'THIS IS A SECRET (CHANGE THIS)',
+        emailform: "[EMAIL_ADDRESS]",
+        smtpOptions: {
+            host: "smtp.ethereal.email",
+            port: 587,
+            service: "Gmail",
+            auth: {
+                user: "[EMAIL_ADDRESS]",
+                pass: "[PASSWORD]"
+            }
+        }
+    };
+}
 
 export const config = {
     database: {
