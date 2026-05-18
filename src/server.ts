@@ -27,12 +27,30 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;
 
-initialize()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
-        });
-    }).catch((err) => {
-        console.log('Failed to initialize database::', err);
+// Start database initialization immediately
+const initPromise = initialize();
+
+initPromise.catch((err) => {
+    console.error('Failed to initialize database:', err);
+    if (!process.env.VERCEL) {
         process.exit(1);
+    }
+});
+
+// Middleware to ensure database is initialized before handling requests
+app.use(async (req, res, next) => {
+    try {
+        await initPromise;
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
     });
+}
+
+export default app;
