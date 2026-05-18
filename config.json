@@ -6,14 +6,13 @@
         "password": "2qW^sUg=M",
         "database": "u875409848_enero"
     },
-    "secret": "ROVEJAY_ENERO_2005_6_22",
-    "emailFrom": "info@my-node-api.com",
+    "secret": "SUPER_SECRET_KEY",
+    "emailform": "enerojay63@gmail.com",
     "smtpOptions": {
-        "host": "smtp.ethereal.email",
-        "port": 587,
+        "service": "gmail",
         "auth": {
-            "user": "christop.koelpin@ethereal.email",
-            "pass": "pXxrErY6xPXjCrn7Y1"
+            "user": "enerojay63@gmail.com",
+            "pass": "xagg wauf ewte bege"
         }
     }
 }
