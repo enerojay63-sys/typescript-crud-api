@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.db = void 0;
 exports.initialize = initialize;
 const promise_1 = __importDefault(require("mysql2/promise"));
+const mysql2_1 = __importDefault(require("mysql2"));
 const sequelize_1 = require("sequelize");
 const config_json_1 = __importDefault(require("../../config.json"));
 exports.db = {};
@@ -58,6 +59,7 @@ async function initialize() {
     }
     const sequelize = new sequelize_1.Sequelize(database, user, password, {
         dialect: 'mysql',
+        dialectModule: mysql2_1.default,
         host,
         port
     });

@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import mysql2 from 'mysql2';
 import { Sequelize } from 'sequelize';
 import config from '../../config.json';
 
@@ -27,6 +28,7 @@ export async function initialize(): Promise<void> {
 
     const sequelize = new Sequelize(database, user, password, {
         dialect: 'mysql',
+        dialectModule: mysql2,
         host,
         port
     });
