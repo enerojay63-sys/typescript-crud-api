@@ -71,6 +71,15 @@ async function initialize() {
     exports.db.RefreshToken = refreshTokenModel(sequelize);
     exports.db.Account.hasMany(exports.db.RefreshToken, { onDelete: 'CASCADE' });
     exports.db.RefreshToken.belongsTo(exports.db.Account);
-    await sequelize.sync({ alter: true });
+    const isServerlessOrProd = !!process.env.VERCEL || process.env.NODE_ENV === 'production';
+    const shouldAlter = process.env.DB_ALTER === 'true' || (!isServerlessOrProd && process.env.NODE_ENV !== 'production');
+    if (shouldAlter) {
+        console.log('Syncing database with { alter: true }...');
+        await sequelize.sync({ alter: true });
+    }
+    else {
+        console.log('Syncing database with standard sync...');
+        await sequelize.sync();
+    }
     console.log('______DATABASE INITIALIZED AND MODELS SYNCED______');
 }
